@@ -21,10 +21,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+      <html lang="en" suppressHydrationWarning>
+      <head>
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+      </head>
+      <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
-          <Toaster />
         </ThemeProvider>
+      </body>
+    </html>
       </body>
     </html>
   )

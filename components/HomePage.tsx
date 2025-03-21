@@ -1,21 +1,12 @@
 "use client"
 import { useRouter } from "next/navigation"
-import { CircleDollarSign, CheckCircle2, ArrowRight, BarChart3, Calendar, CreditCard, PieChart, X } from "lucide-react"
+import { CircleDollarSign, CheckCircle2, BarChart3, Calendar, CreditCard, PieChart, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import DemoSection from "@/components/DemoSection"
-import { isAuthenticated } from "@/lib/auth"
 
 export default function HomePage() {
   const router = useRouter()
-
-  const handleGetStarted = () => {
-    if (isAuthenticated()) {
-      router.push("/payment")
-    } else {
-      router.push("/login?redirect=payment")
-    }
-  }
 
   const features = [
     {
@@ -148,10 +139,14 @@ export default function HomePage() {
               </CardContent>
               <CardFooter>
                 <div className="w-full space-y-4">
-                  <Button className="w-full" variant="outline" size="lg" onClick={() => router.push("/login")}>
-                    Começar grátis
-                  </Button>
-                  <p className="text-center text-sm text-muted-foreground">Válido por apenas 30 dias</p>
+                  {/* Substitua o Button pelo componente do Stripe */}
+                  <div className="w-full">
+                    <stripe-buy-button
+                      buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
+                      publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
+                    ></stripe-buy-button>
+                  </div>
+                  <p className="text-center text-sm text-muted-foreground">Válido por apenas 1 mês</p>
                 </div>
               </CardFooter>
             </Card>
@@ -187,9 +182,13 @@ export default function HomePage() {
               </CardContent>
               <CardFooter>
                 <div className="w-full space-y-4">
-                  <Button className="w-full" size="lg" onClick={handleGetStarted}>
-                    Começar agora
-                  </Button>
+                  {/* Substitua o Button pelo componente do Stripe */}
+                  <div className="w-full">
+                    <stripe-buy-button
+                      buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
+                      publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
+                    ></stripe-buy-button>
+                  </div>
                   <p className="text-center text-sm text-muted-foreground">1 mês grátis - não precisa de cartão!</p>
                 </div>
               </CardFooter>
@@ -205,10 +204,13 @@ export default function HomePage() {
           <p className="max-w-2xl mx-auto mb-8">
             Junte-se a milhares de pessoas que já estão controlando suas finanças com o Simple Finance
           </p>
-          <Button size="lg" variant="secondary" onClick={handleGetStarted} className="group">
-            Criar conta gratuita
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+          {/* Substitua o Button pelo componente do Stripe */}
+          <div className="inline-block">
+            <stripe-buy-button
+              buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
+              publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
+            ></stripe-buy-button>
+          </div>
         </div>
       </section>
 
