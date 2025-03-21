@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:ikxJWBprJTWrToyFoFojSGlgKfFvMfKK@ballast.proxy.rlwy.net:27300/railway"
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  username       String
+  password       String
+  userType       String   @default("free") // "free" ou "premium"
+  trialExpiresAt DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  tables         Table[]
+}
+
+model Table {
+  id           String        @id @default(uuid())
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  transactions Transaction[]
+}
+
+model Transaction {
+  id            String           @id @default(uuid())
+  name          String
+  type          TransactionType
+  category      String
+  paymentMethod String
+  date          DateTime
+  amount        Float
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  table         Table            @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  tableId       String
+}
+
+enum TransactionType {
+  Ganhos
+  Gastos
+  Investimento
+}
+
