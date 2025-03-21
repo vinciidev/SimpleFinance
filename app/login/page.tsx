@@ -73,15 +73,7 @@ export default function LoginPage() {
     }
   }
 
-  // Função para pular a autenticação (apenas para desenvolvimento)
-  const handleBypassAuth = async () => {
-    await bypassAuth()
-    if (redirectTo === "payment") {
-      router.push("/payment")
-    } else {
-      router.push("/dashboard")
-    }
-  }
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -156,14 +148,6 @@ export default function LoginPage() {
             </Button>
           </div>
 
-          {/* REMOVER ESTE BOTÃO ANTES DE COLOCAR EM PRODUÇÃO */}
-          {/* Botão de administrador para pular autenticação (apenas para desenvolvimento) */}
-          <div className="mt-4 text-center">
-            <Button variant="outline" onClick={handleBypassAuth}>
-              Admin: Pular Autenticação
-            </Button>
-          </div>
-          {/* FIM DO BOTÃO DE ADMINISTRADOR */}
         </CardContent>
       </Card>
     </div>
