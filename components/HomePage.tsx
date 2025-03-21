@@ -1,12 +1,43 @@
 "use client"
 import { useRouter } from "next/navigation"
-import { CircleDollarSign, CheckCircle2, BarChart3, Calendar, CreditCard, PieChart, X } from "lucide-react"
+import { useEffect, useRef } from "react"
+import { CircleDollarSign, CheckCircle2, ArrowRight, BarChart3, Calendar, CreditCard, PieChart, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import DemoSection from "@/components/DemoSection"
 
+// Função para abrir o modal do Stripe
+const openStripeCheckout = () => {
+  // Verifica se o Stripe está carregado
+  if (typeof window !== 'undefined' && window.Stripe) {
+    // Cria um elemento invisível do botão do Stripe
+    const stripeButton = document.createElement('stripe-buy-button');
+    stripeButton.setAttribute('buy-button-id', 'buy_btn_1R54KCLW4QSUgIBP4Isp82KO');
+    stripeButton.setAttribute('publishable-key', 'pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw');
+    stripeButton.style.display = 'none';
+    document.body.appendChild(stripeButton);
+    
+    // Simula um clique no botão
+    setTimeout(() => {
+      stripeButton.shadowRoot?.querySelector('button')?.click();
+    }, 100);
+  }
+};
+
 export default function HomePage() {
   const router = useRouter()
+  const stripeButtonRef = useRef<HTMLDivElement>(null);
+
+  // Adiciona o botão do Stripe de forma oculta para poder acioná-lo programaticamente
+  useEffect(() => {
+    if (stripeButtonRef.current) {
+      const stripeButton = document.createElement('stripe-buy-button');
+      stripeButton.setAttribute('buy-button-id', 'buy_btn_1R54KCLW4QSUgIBP4Isp82KO');
+      stripeButton.setAttribute('publishable-key', 'pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw');
+      stripeButton.style.display = 'none';
+      stripeButtonRef.current.appendChild(stripeButton);
+    }
+  }, []);
 
   const features = [
     {
@@ -33,6 +64,9 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Div oculta para o botão do Stripe */}
+      <div ref={stripeButtonRef} className="hidden"></div>
+      
       {/* Hero Section */}
       <header className="bg-gradient-to-b from-background to-muted">
         <div className="container px-4 py-8 md:py-16">
@@ -139,13 +173,15 @@ export default function HomePage() {
               </CardContent>
               <CardFooter>
                 <div className="w-full space-y-4">
-                  {/* Substitua o Button pelo componente do Stripe */}
-                  <div className="w-full">
-                    <stripe-buy-button
-                      buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
-                      publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
-                    ></stripe-buy-button>
-                  </div>
+                  {/* Mantém o botão original, mas com o onClick para o Stripe */}
+                  <Button 
+                    className="w-full" 
+                    variant="outline" 
+                    size="lg" 
+                    onClick={openStripeCheckout}
+                  >
+                    Começar grátis
+                  </Button>
                   <p className="text-center text-sm text-muted-foreground">Válido por apenas 1 mês</p>
                 </div>
               </CardFooter>
@@ -182,13 +218,14 @@ export default function HomePage() {
               </CardContent>
               <CardFooter>
                 <div className="w-full space-y-4">
-                  {/* Substitua o Button pelo componente do Stripe */}
-                  <div className="w-full">
-                    <stripe-buy-button
-                      buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
-                      publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
-                    ></stripe-buy-button>
-                  </div>
+                  {/* Mantém o botão original, mas com o onClick para o Stripe */}
+                  <Button 
+                    className="w-full" 
+                    size="lg" 
+                    onClick={openStripeCheckout}
+                  >
+                    Começar agora
+                  </Button>
                   <p className="text-center text-sm text-muted-foreground">1 mês grátis - não precisa de cartão!</p>
                 </div>
               </CardFooter>
@@ -204,13 +241,16 @@ export default function HomePage() {
           <p className="max-w-2xl mx-auto mb-8">
             Junte-se a milhares de pessoas que já estão controlando suas finanças com o Simple Finance
           </p>
-          {/* Substitua o Button pelo componente do Stripe */}
-          <div className="inline-block">
-            <stripe-buy-button
-              buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
-              publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
-            ></stripe-buy-button>
-          </div>
+          {/* Mantém o botão original, mas com o onClick para o Stripe */}
+          <Button 
+            size="lg" 
+            variant="secondary" 
+            onClick={openStripeCheckout} 
+            className="group"
+          >
+            Criar conta gratuita
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Button>
         </div>
       </section>
 
@@ -231,4 +271,3 @@ export default function HomePage() {
     </div>
   )
 }
-

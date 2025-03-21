@@ -8,6 +8,27 @@ import { useTheme } from "next-themes"
 import { logout } from "@/lib/auth"
 import { cn } from "@/lib/utils"
 
+// Função para abrir o modal do Stripe
+const openStripeCheckout = () => {
+  // Verifica se o Stripe está carregado
+  if (typeof window !== "undefined" && window.Stripe) {
+    // Cria um elemento invisível do botão do Stripe
+    const stripeButton = document.createElement("stripe-buy-button")
+    stripeButton.setAttribute("buy-button-id", "buy_btn_1R54KCLW4QSUgIBP4Isp82KO")
+    stripeButton.setAttribute(
+      "publishable-key",
+      "pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw",
+    )
+    stripeButton.style.display = "none"
+    document.body.appendChild(stripeButton)
+
+    // Simula um clique no botão
+    setTimeout(() => {
+      stripeButton.shadowRoot?.querySelector("button")?.click()
+    }, 100)
+  }
+}
+
 export default function Navigation() {
   const router = useRouter()
   const pathname = usePathname()
@@ -53,13 +74,10 @@ export default function Navigation() {
             {theme === "dark" ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
           </Button>
 
-          {/* Adicione o botão do Stripe aqui */}
-          <div className="hidden md:block">
-            <stripe-buy-button
-              buy-button-id="buy_btn_1R54KCLW4QSUgIBP4Isp82KO"
-              publishable-key="pk_live_51R4kYWLW4QSUgIBPdDUAE1TdAly8BfSHbLcUQLOSLtT0qcFDInwrbiLoptXXmEwFbCXU390O8MZ1TDOKSY1kEWVx00UWjmcxxw"
-            ></stripe-buy-button>
-          </div>
+          {/* Adicione um botão para o Stripe mantendo a estilização */}
+          <Button variant="outline" onClick={openStripeCheckout}>
+            Assinar
+          </Button>
 
           <Button variant="outline" size="icon" onClick={handleLogout}>
             <LogOut className="h-[1.2rem] w-[1.2rem]" />
